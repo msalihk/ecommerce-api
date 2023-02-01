@@ -17,23 +17,31 @@ class AuthController extends Controller
     public function store(StoreUserRequest $request, UserService $userService)
     {
         $user = $userService->store($request->validated());
-
-        return new UserResource($user);
+        $token = $user->createToken('myapp-token')->plainTextToken;
+        return response()->json([
+           'user' => new UserResource($user),
+           'token' => $token
+        ]);
     }
 
     public function login(LoginRequest $request)
     {
-        $creditentials = $request->validated();
+        $credentials = $request->validated();
 
-        $user = User::where('email', $creditentials["email"])->first();
+        $user = User::where('email', $credentials["email"])->first();
 
-        if (! $user || ! Hash::check($creditentials["password"], $user->password)) {
+        if (! $user || ! Hash::check($credentials["password"], $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        return $user->createToken("myToken")->plainTextToken;
+        $token = $user->createToken("myToken")->plainTextToken;
+
+        return response()->json([
+            'user' => new UserResource($user),
+            'token' => $token,
+        ]);
     }
 
     public function logout(Request $request)
