@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('SKU')->unique();
             $table->integer('stock');
-            $table->string('image')->default('http://imageurl.com');
+            $table->string('image');
             $table->text('description');
             $table->boolean('status');
             $table->foreignId('category_id');

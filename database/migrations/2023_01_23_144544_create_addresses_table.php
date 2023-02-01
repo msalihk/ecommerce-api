@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('adresses', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->nullable();
             $table->string('title');
-            $table->foreignId('district_id');
-            $table->foreignId('city_id');
+            $table->foreignId('district_id')->nullable();
+            $table->foreignId('city_id')->nullable();
             $table->longText('line_1');
             $table->longText('line_2');
-            $table->integer('phone');
+            $table->bigInteger('phone');
             $table->integer('postal_code');
             $table->timestamps();
         });

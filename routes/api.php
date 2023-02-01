@@ -1,17 +1,27 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\RoleController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartProductController;
+use App\Http\Controllers\CategoryController;
+
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderProductController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
-
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::post('/register', [AuthController::class, 'store'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::apiResources([
+    'addresses' => AddressController::class,
+    'brands' => BrandController::class,
+    'categories' => CategoryController::class,
+    'products' => ProductController::class,
+    'orders' => OrderController::class,
+    'order-products' => OrderProductController::class,
+    'cart-products' => CartProductController::class
+]);
 
