@@ -18,6 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Category::class);
         return CategoryResource::collection(Category::all());
     }
 
@@ -29,6 +30,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
+        $this->authorize('create', Category::class);
         $category = Category::create($request->validated());
         return new CategoryResource($category);
     }
@@ -53,6 +55,7 @@ class CategoryController extends Controller
      */
     public function update(StoreCategoryRequest $request, $id)
     {
+        $this->authorize('update', Category::class);
         $existingCategory = Category::find($id);
         $existingCategory->update($request->all());
         return new CategoryResource($existingCategory);
@@ -66,6 +69,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', Category::class);
         Category::destroy($id);
         if (! Category::find($id)) {
             return "Category deleted successfully";
